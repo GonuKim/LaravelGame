@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RankingController extends Controller
 {
@@ -11,7 +13,10 @@ class RankingController extends Controller
      */
     public function index()
     {
-        return view('ranking');
+        $user = Auth::user();   
+        $games = Game::all();
+        
+        return view('ranking', ['user'=>$user, 'games'=>$games]);
     }
 
     /**

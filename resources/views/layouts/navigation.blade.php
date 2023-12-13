@@ -19,7 +19,7 @@
 
                 {{-- 추가한 네비게이션 --}}
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('game')" :active="request()->routeIs('game')">
+                    <x-nav-link :href="route('game.index')" :active="request()->routeIs('game')">
                         {{ __('Game') }}
                     </x-nav-link>
                 </div>
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('community')" :active="request()->routeIs('community')">
+                    <x-nav-link :href="route('community.index')" :active="request()->routeIs('community')">
                         {{ __('Community') }}
                     </x-nav-link>
                 </div>

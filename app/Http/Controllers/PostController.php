@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CommunityController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $user = Auth::user();   
+    { 
+        $posts = Post::all(); 
         
-        return view('community', ['user'=>$user]);
+        return view('community', ['posts'=>$posts]);
     }
 
     /**
@@ -22,7 +23,7 @@ class CommunityController extends Controller
      */
     public function create()
     {
-        //
+        return view('register_form');
     }
 
     /**
@@ -30,7 +31,18 @@ class CommunityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $title = $request->title;
+        $content = $request->content;
+        $user = Auth::user(); 
+
+        $post = new Post();
+        $post->title=$title;
+        $post->content=$content;
+        $post->user_id = $user->id;
+
+        $post->save();
+
+        return redirect('/community');
     }
 
     /**
@@ -38,7 +50,9 @@ class CommunityController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        return view('show_post', ['post'=>$post]);
     }
 
     /**
@@ -46,7 +60,9 @@ class CommunityController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $post = Post::find($id);
+
+        return view('edit_post', ['post'=>$post]);
     }
 
     /**
@@ -54,7 +70,9 @@ class CommunityController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        Post::where('id', $id)->update(['title'=>$request->title, 'content'=>$request->content]);
+
+        return redirect('/posts/'.$id);
     }
 
     /**
@@ -62,6 +80,10 @@ class CommunityController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = Post::find($id);
+
+        $post->delete();
+
+        return redirect('/community');
     }
 }
